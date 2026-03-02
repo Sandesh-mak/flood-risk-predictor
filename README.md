@@ -1,4 +1,4 @@
-# Flood Risk Micro-Predictor
+# Flood Risk Predictor
 
 ## Overview
 This project simulates urban flood risk prediction using climate parameters: rainfall, temperature, humidity, and drainage quality. The goal is to demonstrate a machine learning approach for climate resilience.
