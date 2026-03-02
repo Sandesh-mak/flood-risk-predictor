@@ -1,0 +1,49 @@
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
+# -----------------------------
+# Generate Synthetic Weather Data
+# -----------------------------
+np.random.seed(42)
+n_samples = 1000
+
+rainfall = np.random.uniform(0, 300, n_samples)
+temperature = np.random.uniform(20, 45, n_samples)
+humidity = np.random.uniform(40, 100, n_samples)
+drainage_score = np.random.randint(1, 6, n_samples)
+
+flood_risk = []
+for r, t, h, d in zip(rainfall, temperature, humidity, drainage_score):
+    risk_score = (r * 0.6) + (h * 0.2) - (d * 20)
+    if risk_score > 150:
+        flood_risk.append("High")
+    elif risk_score > 80:
+        flood_risk.append("Medium")
+    else:
+        flood_risk.append("Low")
+
+data = pd.DataFrame({
+    "Rainfall": rainfall,
+    "Temperature": temperature,
+    "Humidity": humidity,
+    "DrainageScore": drainage_score,
+    "FloodRisk": flood_risk
+})
+
+# -----------------------------
+# Train Model
+# -----------------------------
+X = data[["Rainfall", "Temperature", "Humidity", "DrainageScore"]]
+y = data["FloodRisk"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+
+# Evaluate
+predictions = model.predict(X_test)
+print("Model Evaluation:\n")
+print(classification_report(y_test, predictions))

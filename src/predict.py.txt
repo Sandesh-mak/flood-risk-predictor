@@ -1,0 +1,15 @@
+import numpy as np
+from model import model  # import trained model from model.py
+
+def predict_flood(rainfall, temp, humidity, drainage):
+    user_data = np.array([[rainfall, temp, humidity, drainage]])
+    return model.predict(user_data)[0]
+
+# Example user input
+user_rainfall = float(input("Enter rainfall (mm): "))
+user_temp = float(input("Enter temperature (°C): "))
+user_humidity = float(input("Enter humidity (%): "))
+user_drainage = int(input("Enter drainage score (1-poor to 5-good): "))
+
+prediction = predict_flood(user_rainfall, user_temp, user_humidity, user_drainage)
+print("\nPredicted Flood Risk:", prediction)
